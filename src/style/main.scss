@@ -1,0 +1,39 @@
+@import "~bulma/sass/utilities/initial-variables";
+@import "~bulma/sass/utilities/functions";
+
+// Customize
+// Colors
+$primary: #2D3947;
+// Links
+$link-hover: #00D1B2;
+
+$fa-font-path: "~font-awesome/fonts/";
+@import '~font-awesome/scss/font-awesome.scss';
+
+@import '~bulma/bulma.sass';
+@import '~bulma-pageloader/dist/css/bulma-pageloader.sass';
+
+html,
+body {
+    font-size: 14px;
+}
+
+.navbar-bg {
+    background-color: $primary;
+    .title {
+        color: $white;
+    }
+}
+
+.navbar {
+    .image {
+        img {
+            height: 100%;
+            max-height: inherit;
+        }
+    }
+}
+
+.vote-area > * {
+    margin-right: .5em;
+}

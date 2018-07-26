@@ -1,0 +1,43 @@
+{
+    "private": true,
+    "scripts": {
+        "postinstall": "dotnet restore",
+        "concurrently": "concurrently",
+        "start": "cd src/Client && dotnet fable npm-concurrently -- npm:start-*",
+        "start-client": "webpack-dev-server --config webpack.client.js",
+        "start-server": "webpack-cli -w --config webpack.server.js",
+        "build": "cd src/Client && dotnet fable npm-concurrently -- npm:build-*",
+        "build-client": "webpack-cli --config webpack.client.js",
+        "build-server": "webpack-cli --config webpack.server.js"
+    },
+    "dependencies": {
+        "body-parser": "^1.18.3",
+        "bulma": "^0.7.1",
+        "bulma-pageloader": "^2.1.0",
+        "express": "^4.16.3",
+        "font-awesome": "^4.7.0",
+        "lowdb": "^1.0.0",
+        "react": "^16.4.1",
+        "react-dom": "^16.4.1",
+        "showdown": "^1.8.6"
+    },
+    "devDependencies": {
+        "babel-core": "^6.26.3",
+        "babel-loader": "^7.1.5",
+        "babel-preset-env": "^1.7.0",
+        "concurrently": "^3.6.1",
+        "copy-webpack-plugin": "^4.5.2",
+        "css-loader": "^1.0.0",
+        "fable-loader": "^2.0.0-alpha-003",
+        "file-loader": "^1.1.11",
+        "html-webpack-plugin": "^3.2.0",
+        "mini-css-extract-plugin": "^0.4.1",
+        "node-sass": "^4.9.2",
+        "nodemon-webpack-plugin": "^3.0.1",
+        "sass-loader": "^7.0.3",
+        "style-loader": "^0.21.0",
+        "webpack": "^4.16.2",
+        "webpack-cli": "^3.1.0",
+        "webpack-dev-server": "^3.1.5"
+    }
+}
