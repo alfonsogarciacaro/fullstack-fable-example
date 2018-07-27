@@ -15,8 +15,9 @@ let app = express.Invoke()
 // Configure express application
 
 app
+// Register the static directories
+// In development, static files will be served by webpack-dev-server
 #if !DEBUG
-    // Register the static directories
     .Use(express.``static``.Invoke(publicPath, jsOptions(fun o ->
         o.index <- Some !^"index.html")))
 #endif
