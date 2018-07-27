@@ -17,8 +17,10 @@ type express.Request with
     member req.GetParamAsInt(key: string): int =
         let p: string = req.``params``?(key)
         int p
-    member inline req.ParseBody(): 'T =
-        Decode.Auto.unsafeFromString !!req.body
+    member inline req.ParseBody(decoder: Decode.Decoder<'T>): 'T =
+        match Decode.fromValue "$" decoder req.body with
+        | Ok v -> v
+        | Error err -> failwith err
 
 module Express =
     let get (route: string) (handler: SimpleHandler) (app: express.Express) =

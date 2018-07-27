@@ -8,15 +8,6 @@ open Fable.PowerPack.Fetch
 open Thoth.Json
 open Shared.Types
 
-let userDecoder = Decode.Auto.generateDecoder<User>()
-let answerDecoder = Decode.Auto.generateDecoder<Answer>()
-let questionDecoder = Decode.Auto.generateDecoder<Question>()
-let questionShowDecoder: Decode.Decoder<QuestionShow> =
-    Decode.object (fun get ->
-        { Question = get.Required.Field "Question" questionDecoder
-          Answers = get.Required.Field "Answers" (Decode.list answerDecoder) }
-    )
-
 [<Global("fetch")>]
 let private fetchNative (req: RequestInfo, init: RequestInit): JS.Promise<Response> = jsNative
 

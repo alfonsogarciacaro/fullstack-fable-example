@@ -3,6 +3,7 @@ module Server
 open Fable.Core.JsInterop
 open Fable.Import
 open Shared.Types
+open Shared.Types.Decoders
 open Database
 open Helpers
 
@@ -19,8 +20,7 @@ app
     .Use(express.``static``.Invoke(publicPath, jsOptions(fun o ->
         o.index <- Some !^"index.html")))
 #endif
-    .Use(bodyParser.Globals.text(jsOptions(fun o ->
-        o.``type`` <- Some !^"application/json")))
+    .Use(bodyParser.Globals.json())
     |> ignore
 
 // Routing
@@ -43,7 +43,7 @@ app
     Response.sendJson user res
 )
 |> Express.put "/api/user/:id/edit" (fun req res ->
-    let user = req.ParseBody<User>()
+    let user = req.ParseBody(User.Decoder)
     Database.Users
         .find(createObj [ "Id" ==> req.GetParamAsInt("id")])
         .assign(user)
@@ -51,14 +51,14 @@ app
     Response.sendJson user res
 )
 |> Express.post "/api/user/create" (fun req res ->
-    let user = { req.ParseBody<User>() with Id = Database.NextUserId }
+    let user = { req.ParseBody(User.Decoder) with Id = Database.NextUserId }
     Database.Users
         .push(user)
         .write()
     Response.sendJson user res
 )
 |> Express.post "/api/sign-in" (fun req res ->
-    let data = req.ParseBody<SignInData>()
+    let data = req.ParseBody(SignInData.Decoder)
     let user: User =
         Database.Users
             .find(createObj [
@@ -97,7 +97,7 @@ app
 )
 |> Express.post "/api/question/:id/answer" (fun req res ->
     let questionId = req.GetParamAsInt("id")
-    let data: Answer = req.ParseBody()
+    let data: Answer = req.ParseBody(Answer.Decoder)
     let answer : AnswerDb =
         { Id = Database.NextAnswerId
           QuestionId = questionId

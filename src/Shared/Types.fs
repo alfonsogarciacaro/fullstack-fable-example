@@ -36,3 +36,32 @@ type Answer =
 type QuestionShow =
     { Question : Question
       Answers : Answer list }
+
+module Decoders =
+  open Thoth.Json
+
+  // Cache decoders
+  let private userDecoder = Decode.Auto.generateDecoder<User>()
+  let private signInDataDecoder = Decode.Auto.generateDecoder<SignInData>()
+  let private answerDecoder = Decode.Auto.generateDecoder<Answer>()
+  let private questionDecoder = Decode.Auto.generateDecoder<Question>()
+  let private questionShowDecoder: Decode.Decoder<QuestionShow> =
+      Decode.object (fun get ->
+          { Question = get.Required.Field "Question" questionDecoder
+            Answers = get.Required.Field "Answers" (Decode.list answerDecoder) }
+      )
+
+  type User with
+    static member Decoder = userDecoder
+
+  type SignInData with
+    static member Decoder = signInDataDecoder
+
+  type Answer with
+    static member Decoder = answerDecoder
+
+  type Question with
+    static member Decoder = questionDecoder
+
+  type QuestionShow with
+    static member Decoder = questionShowDecoder
