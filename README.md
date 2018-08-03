@@ -21,6 +21,10 @@ Fable and Webpack are used to compile and bundle both the client and the server 
 
 > Please note there will be two servers running at the same time in development: the webpack-dev-server which enables hot-reloading for client code, and the API server. In production only the API server will run (it will serve the static files too). Server ports and other build settings can be configured in `webpack.common.js`.
 
+## Debugging with Visual Studio Code
+
+The repository contains a VS Code config file to debug the server code: `.vscode/launch.json`. After the first Webpack build is finished, just click the debugger icon in VS Code left bar and then PLAY with the `Node: Nodemon` configuration selected. When VS Code finishes attaching the debugger, you'll be able to set break points in the F# code for the server files.
+
 ## Project Structure
 
 The main files/directories in the repo are:
