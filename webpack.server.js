@@ -16,6 +16,7 @@ module.exports = {
     },
     target: "node",
     plugins: isProduction ? [] : [new NodemonPlugin({
+        nodeArgs: [ "--inspect" ],
         args: ["--port", String(CONFIG.serverPort)]
     })],
     module: {

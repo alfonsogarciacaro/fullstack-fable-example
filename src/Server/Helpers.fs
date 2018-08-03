@@ -23,22 +23,32 @@ type express.Request with
         | Error err -> failwith err
 
 module Express =
+    let errorHandler (res: express.Response) (ex: System.Exception) =
+        printfn "ERROR: %s" ex.Message
+        res.status(500).send(ex.Message) |> ignore
+
     let get (route: string) (handler: SimpleHandler) (app: express.Express) =
         app.get(!^route, (fun req res _ ->
-            handler req res |> box
-        )) |> ignore
+            try
+                handler req res
+            with ex -> errorHandler res ex
+        ))
         app
 
     let post (route: string) (handler: SimpleHandler) (app: express.Express) =
         app.post(!^route, (fun req res _ ->
-            handler req res |> box
-        )) |> ignore
+            try
+                handler req res
+            with ex -> errorHandler res ex
+        ))
         app
 
     let put (route: string) (handler: SimpleHandler) (app: express.Express) =
         app.put(!^route, (fun req res _ ->
-            handler req res |> box
-        )) |> ignore
+            try
+                handler req res
+            with ex -> errorHandler res ex
+        ))
         app
 
 module Response =
