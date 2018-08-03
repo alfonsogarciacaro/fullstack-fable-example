@@ -10,6 +10,12 @@ open Helpers
 let publicPath = "./public"
 let port = Args.findOrDefault "--port" "8080" |> int
 
+#if DEBUG
+// Adds source map support for stack traces
+// See https://github.com/evanw/node-source-map-support
+importSideEffects "source-map-support/register"
+#endif
+
 let app = express.Invoke()
 
 // Configure express application
