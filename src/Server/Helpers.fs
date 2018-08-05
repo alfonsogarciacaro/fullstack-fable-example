@@ -57,7 +57,7 @@ module Response =
 
     let sendJson (body: 'a) (res: express.Response) =
         res.setHeader("Content-Type", !^"application/json")
-        res.send(Encode.Auto.toString 0 body) |> ignore
+        res.send(Encode.Auto.toString(0, body)) |> ignore
 
 module Args =
     let findOrDefault k def =

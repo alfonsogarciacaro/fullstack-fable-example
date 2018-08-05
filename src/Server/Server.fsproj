@@ -8,6 +8,7 @@
         <Compile Include="Import/Fable.Import.Express.fs" />
         <Compile Include="Import/Fable.Import.Lowdb.fs" />
         <Compile Include="Import/Fable.Import.BodyParser.fs" />
+        <Compile Include="Import/Fable.Import.DocumentDB.fs" />
         <Compile Include="Helpers.fs" />
         <Compile Include="Database.fs" />
         <Compile Include="Transform.fs" />
