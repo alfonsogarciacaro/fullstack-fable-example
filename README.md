@@ -9,11 +9,15 @@ This project shows how Fable can be used fullstack with a node.js server written
 - [Mono Framework](https://www.mono-project.com/download/stable/) for some tooling if working in non-Windows environment
 - An F# IDE, like Visual Studio Code with [Ionide extension](http://ionide.io/)
 
-## Installing dependencies
+## Installing & running (in dev mode)
 
-Type `npm install` to install dependencies (for both JS and F#) after cloning the repository or whenever dependencies change.
+- `.\.paket\paket.bootstrapper.exe`
+- `.\.paket\paket.exe update`
+- `dotnet restore`
+- `npm install`
+- `npm run start`
 
-> [Paket](https://fsprojects.github.io/Paket/) is the tool used to manage F# dependencies.
+As soon as you have installed all dependencies (and there are no new ones) it is sufficient to start by just typing `npm run start`
 
 ## Development
 
