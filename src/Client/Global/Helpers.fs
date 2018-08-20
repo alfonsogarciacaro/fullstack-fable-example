@@ -30,5 +30,5 @@ let post<'T> url (body: 'T) decoder: JS.Promise<'T> =
     let props =
         [ RequestProperties.Method HttpMethod.POST
           requestHeaders [ContentType "application/json"]
-          RequestProperties.Body !^(Encode.Auto.toString 0 body)]
+          RequestProperties.Body !^(Encode.Auto.toString(0, body, true))]
     fetchPrivate url decoder props

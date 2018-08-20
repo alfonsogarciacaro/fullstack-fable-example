@@ -1,14 +1,13 @@
 module Transform
 
-open Fable.Core.JsInterop
+open Fable.Import
+open Fable.PowerPack
 open Database
+open Helpers
 
-let generateQuestion (questionDb : QuestionDb) : Shared.Types.Question =
-    let author =
-        Database.Users
-            .find(createObj [ "Id" ==> questionDb.AuthorId ])
-            .value() |> unbox<Shared.Types.User>
-
+let generateQuestion (db: Database) (questionDb : QuestionDb) : JS.Promise<Shared.Types.Question> = promise {
+  let! author = db.User(string questionDb.AuthorId)
+  return
     { Id = questionDb.Id
       Author =
         { Id = author.Id
@@ -21,13 +20,11 @@ let generateQuestion (questionDb : QuestionDb) : Shared.Types.Question =
       Title = questionDb.Title
       Description = questionDb.Description
       CreatedAt = questionDb.CreatedAt }
+}
 
-let generateAnswer (answerDb : AnswerDb) : Shared.Types.Answer =
-    let author =
-        Database.Users
-            .find(createObj [ "Id" ==> answerDb.AuthorId ])
-            .value() |> unbox<Shared.Types.User>
-
+let generateAnswer (db: Database) (answerDb : AnswerDb) : JS.Promise<Shared.Types.Answer> = promise {
+  let! author = db.User(string answerDb.AuthorId)
+  return
     { Id = answerDb.Id
       Author =
         { Id = author.Id
@@ -40,3 +37,4 @@ let generateAnswer (answerDb : AnswerDb) : Shared.Types.Answer =
       Content = answerDb.Content
       Score = 0
       CreatedAt = answerDb.CreatedAt }
+}

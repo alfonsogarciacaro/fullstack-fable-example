@@ -11,6 +11,7 @@
         "build-server": "webpack-cli --config webpack.server.js"
     },
     "dependencies": {
+        "@azure/cosmos": "^2.0.0-4",
         "body-parser": "^1.18.3",
         "bulma": "^0.7.1",
         "bulma-pageloader": "^2.1.0",

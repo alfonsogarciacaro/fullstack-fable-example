@@ -9,7 +9,7 @@ let serverUrl path = "/api" + path
 
 type QuestionPage =
     | Index
-    | Show of int
+    | Show of string
 
 type Page =
     | Question of QuestionPage
@@ -20,13 +20,13 @@ let private toHash page =
     | Question questionPage ->
         match questionPage with
         | Index -> "#question/index"
-        | Show id -> sprintf "#question/%i" id
+        | Show id -> sprintf "#question/%s" id
     | Home -> "#/"
 
 let pageParser: Parser<Page->Page,Page> =
     oneOf [
         map (QuestionPage.Index |> Question) (s "question" </> s "index")
-        map (QuestionPage.Show >> Question) (s "question" </> i32)
+        map (QuestionPage.Show >> Question) (s "question" </> str)
         map (QuestionPage.Index |> Question) top ]
 
 let href route =

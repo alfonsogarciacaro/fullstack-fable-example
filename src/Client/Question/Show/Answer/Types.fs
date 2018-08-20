@@ -3,7 +3,7 @@ module Question.Show.Answer.Types
 open Shared.Types
 
 type Model =
-    { QuestionId : int
+    { QuestionId : string
       Answer : Answer
       Author : User
       IsLoading : bool

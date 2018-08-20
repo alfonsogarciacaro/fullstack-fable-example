@@ -1,5 +1,5 @@
-var apiServerPort = 9001;
-var devServerPort = 9000;
+var apiServerPort = 8080;
+var devServerPort = 8082;
 
 module.exports = {
     indexHtmlTemplate: "./src/index.html",

@@ -5,8 +5,8 @@
     </PropertyGroup>
     <ItemGroup>
         <Compile Include="../Shared/Types.fs" />
+        <Compile Include="Import/Fable.Import.CosmosDb.fs" />
         <Compile Include="Import/Fable.Import.Express.fs" />
-        <Compile Include="Import/Fable.Import.Lowdb.fs" />
         <Compile Include="Import/Fable.Import.BodyParser.fs" />
         <Compile Include="Helpers.fs" />
         <Compile Include="Database.fs" />

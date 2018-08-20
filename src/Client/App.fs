@@ -79,7 +79,7 @@ open Elmish.Browser.UrlParser
 
 Promise.start <| promise {
     // TODO: Proper log-in
-    let! user = Question.Show.Rest.getUser 0
+    let! user = Question.Show.Rest.getUser (string System.Guid.Empty)
 
     Program.mkProgram (init user) update root
     |> Program.toNavigable (parseHash Router.pageParser) urlUpdate

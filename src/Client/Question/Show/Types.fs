@@ -3,7 +3,7 @@ module Question.Show.Types
 open Shared.Types
 
 type Model =
-    { QuestionId : int
+    { QuestionId : string
       Question : Question option
       Answers : Answer.Types.Model list
       Reply : string
@@ -27,7 +27,7 @@ type CreateAnswerRes =
     | Error of exn
 
 type Msg =
-    | GetDetails of int
+    | GetDetails of string
     | GetDetailsResult of GetDetailsRes
     | ChangeReply of string
     | Submit
