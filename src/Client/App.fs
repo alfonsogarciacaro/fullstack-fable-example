@@ -25,6 +25,8 @@ let private navbarStart dispatch =
                                                         |> Router.Question
                                                         |> Router.modifyLocation) ] ]
             [ str "Home" ]
+          Navbar.Item.a [ Navbar.Item.Props [ Href (Router.toHash Router.Users) ] ]
+                        [ str "Users" ]
         //   Navbar.Item.div [ Navbar.Item.HasDropdown
         //                     Navbar.Item.IsHoverable ]
         //     [ Navbar.Link.div [ ]
@@ -62,8 +64,11 @@ let private navbarView isBurgerOpen dispatch =
 let private renderPage model dispatch =
     match model with
     | { CurrentPage = Router.Question _
-        QuestionDispatcher = Some extractedModel } ->
+        PageModel = QuestionModel extractedModel } ->
         Question.Dispatcher.View.root model.Session extractedModel (QuestionDispatcherMsg >> dispatch)
+    | { CurrentPage = Router.Users
+        PageModel = UserModel model } ->
+        Users.View.root model (UsersMsg >> dispatch)
     | _ ->
         Render.pageNotFound
 

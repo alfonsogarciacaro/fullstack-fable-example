@@ -14,17 +14,20 @@ type QuestionPage =
 type Page =
     | Question of QuestionPage
     | Home
+    | Users
 
-let private toHash page =
+let toHash page =
     match page with
     | Question questionPage ->
         match questionPage with
         | Index -> "#question/index"
         | Show id -> sprintf "#question/%i" id
     | Home -> "#/"
+    | Users -> "#users"
 
 let pageParser: Parser<Page->Page,Page> =
     oneOf [
+        map (Users) (s "users")
         map (QuestionPage.Index |> Question) (s "question" </> s "index")
         map (QuestionPage.Show >> Question) (s "question" </> i32)
         map (QuestionPage.Index |> Question) top ]

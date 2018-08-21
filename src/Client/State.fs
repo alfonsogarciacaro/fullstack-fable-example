@@ -15,19 +15,31 @@ let urlUpdate (result: Option<Router.Page>) model =
         match page with
         | Router.Question questionPage ->
             let (subModel, subCmd) = Question.Dispatcher.State.init questionPage
-            { model with QuestionDispatcher = Some subModel }, Cmd.map QuestionDispatcherMsg subCmd
+            { model with PageModel = QuestionModel subModel }, Cmd.map QuestionDispatcherMsg subCmd
         | Router.Home ->
             let (subModel, subCmd) = Question.Dispatcher.State.init Router.QuestionPage.Index
-            { model with QuestionDispatcher = Some subModel }, Cmd.map QuestionDispatcherMsg subCmd
+            { model with PageModel = QuestionModel subModel }, Cmd.map QuestionDispatcherMsg subCmd
+        | Router.Users ->
+            let subModel = Users.State.init ()
+            { model with PageModel = UserModel subModel }, Cmd.none
 
 let init user result =
     urlUpdate result (Model.Init user)
 
 let update msg model =
     match (msg, model) with
-    | (QuestionDispatcherMsg msg, { QuestionDispatcher = Some extractedModel }) ->
+    | (UsersMsg msg, model) ->
+        match model with
+        | { PageModel = UserModel subModel } ->
+            let (subModel, subCmd) = Users.State.update msg subModel
+            { model with PageModel = UserModel subModel }, Cmd.map UsersMsg subCmd
+        | _ ->
+            Browser.console.log("[App.State] Discarded message")
+            model, Cmd.none
+
+    | (QuestionDispatcherMsg msg, { PageModel = QuestionModel extractedModel }) ->
         let (subModel, subCmd) = Question.Dispatcher.State.update model.Session msg extractedModel
-        { model with QuestionDispatcher = Some subModel }, Cmd.map QuestionDispatcherMsg subCmd
+        { model with PageModel = QuestionModel subModel }, Cmd.map QuestionDispatcherMsg subCmd
 
     | (QuestionDispatcherMsg capturedMsg, _) ->
         Browser.console.log("[App.State] Discarded message")

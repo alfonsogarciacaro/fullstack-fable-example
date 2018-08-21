@@ -24,6 +24,7 @@
     <Compile Include="Question/Dispatcher/Types.fs" />
     <Compile Include="Question/Dispatcher/State.fs" />
     <Compile Include="Question/Dispatcher/View.fs" />
+    <Compile Include="Users/Users.fs" />
     <Compile Include="Types.fs" />
     <Compile Include="State.fs" />
     <Compile Include="App.fs" />

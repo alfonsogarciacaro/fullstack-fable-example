@@ -15,10 +15,15 @@ type Question =
       Description : string
       CreatedAt : string }
 
+type PageModel =
+    | EmptyModel
+    | QuestionModel of Question.Dispatcher.Types.Model
+    | UserModel of Users.Types.Model
+
 type Model =
     { CurrentPage : Router.Page
       Session : SessionInfo
-      QuestionDispatcher : Question.Dispatcher.Types.Model option
+      PageModel : PageModel
       IsBurgerOpen : bool }
 
     static member Init user =
@@ -26,9 +31,10 @@ type Model =
             Router.QuestionPage.Index
             |> Router.Question
           Session = user
-          QuestionDispatcher = None
+          PageModel = EmptyModel
           IsBurgerOpen = false }
 
 type Msg =
+    | UsersMsg of Users.Types.Msg
     | QuestionDispatcherMsg of Question.Dispatcher.Types.Msg
     | ToggleBurger
