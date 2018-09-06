@@ -47,13 +47,13 @@ module express =
         abstract param: callback: Func<string, Regex, RequestParamHandler> -> 'T
         abstract route: path: string -> IRoute
         abstract ``use``: [<ParamArray>] handler: RequestHandler[] -> 'T
-        // abstract ``use``: handler: U2<ErrorRequestHandler, RequestHandler> -> 'T
+        abstract ``use``: handler: ErrorRequestHandler -> 'T
         abstract ``use``: path: string * [<ParamArray>] handler: RequestHandler[] -> 'T
-        // abstract ``use``: path: string * handler: U2<ErrorRequestHandler, RequestHandler> -> 'T
+        abstract ``use``: path: string * handler: ErrorRequestHandler -> 'T
         abstract ``use``: path: string[] * [<ParamArray>] handler: RequestHandler[] -> 'T
-        // abstract ``use``: path: ResizeArray<string> * handler: ErrorRequestHandler -> 'T
+        abstract ``use``: path: ResizeArray<string> * handler: ErrorRequestHandler -> 'T
         abstract ``use``: path: Regex * [<ParamArray>] handler: RequestHandler[] -> 'T
-        // abstract ``use``: path: Regex * handler: ErrorRequestHandler -> 'T
+        abstract ``use``: path: Regex * handler: ErrorRequestHandler -> 'T
         abstract ``use``: path: string * router: Router -> 'T
 
     and Router =
@@ -166,20 +166,20 @@ module express =
         abstract render: view: string * ?options: obj * ?callback: Func<Error, string, unit> -> unit
         abstract render: view: string * ?callback: Func<Error, string, unit> -> unit
 
-    and NextFunction = Func<obj,unit>
+    and NextFunction = obj->unit
         // [<Emit("$0($1...)")>] abstract Invoke: unit -> unit
         // [<Emit("$0($1...)")>] abstract Invoke: err: obj -> unit
 
-    and ErrorRequestHandler = Func<obj, Request, Response, (obj->unit), obj>
+    and ErrorRequestHandler = Func<Exception, Request, Response, NextFunction, unit>
         // [<Emit("$0($1...)")>] abstract Invoke: err: obj * req: Request * res: Response * next: Next('FIn->'FOut) -> obj
 
-    and RequestHandler = Func<Request, Response, (obj->unit), unit>
+    and RequestHandler = Func<Request, Response, NextFunction, unit>
         // [<Emit("$0($1...)")>] abstract Invoke: req: Request * res: Response * next: Next('FIn->'FOut) -> obj
 
     and Handler = RequestHandler
     //     inherit RequestHandler
 
-    and RequestParamHandler = Func<Request, Response, (obj->unit), obj, obj>
+    and RequestParamHandler = Func<Request, Response, NextFunction, obj, unit>
         // [<Emit("$0($1...)")>] abstract Invoke: req: Request * res: Response * next: Next('FIn->'FOut) * param: obj -> obj
 
     and Application =

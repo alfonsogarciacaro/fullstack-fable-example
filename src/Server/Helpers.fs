@@ -1,5 +1,6 @@
 module Helpers
 
+open System
 open Fable.Core
 open Fable.Core.JsInterop
 open Fable.Import
@@ -16,9 +17,10 @@ type Log =
 type SimpleHandler = express.Request -> express.Response -> JS.Promise<unit>
 
 type express.Express with
-    member app.Use(handler: express.RequestHandler) =
-        app.``use``(handler) |> ignore
-        app
+    member app.Use([<ParamArray>] handlers: express.RequestHandler[]) =
+        app.``use``(handlers) |> ignore; app
+    member app.Catch(errorHandler: express.ErrorRequestHandler) =
+        app.``use``(errorHandler) |> ignore
 
 type express.Request with
     member req.GetParam(key: string): string =

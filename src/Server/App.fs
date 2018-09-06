@@ -1,5 +1,6 @@
 module Server
 
+open System
 open Fable.Import
 open Fable.PowerPack
 open Shared.Types
@@ -18,15 +19,25 @@ let initApp (db: Database) =
     let app = express.Invoke()
 
     // Configure express application
-    app
-    // Register the static directories
-    // In development, static files will be served by webpack-dev-server
-    #if !DEBUG
-        .Use(express.``static``.Invoke(PUBLIC_PATH, jsOptions(fun o ->
-            o.index <- Some !^"index.html")))
-    #endif
-        .Use(bodyParser.Globals.json())
-        |> ignore
+    app.Use(
+#if !DEBUG
+        // Register the static directories
+        // In development, static files will be served by webpack-dev-server
+        express.``static``.Invoke(PUBLIC_PATH, jsOptions(fun o ->
+            o.index <- Some !^"index.html")),
+#endif
+        // Parse body of JSON requests
+        bodyParser.Globals.json()
+
+        // Uncomment this to test errors from middleware
+        // ,(fun req res next ->
+        //     failwith "ERROR FROM MIDDLEWARE!")
+
+    // Middleware error handling
+    ).Catch(fun err req res next ->
+        Log.Error(err)
+        res.status(500).send(err.Message) |> ignore
+    )
 
     // Routing
     // Prevent cache over JSON response
